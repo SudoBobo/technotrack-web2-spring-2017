@@ -5,4 +5,4 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    list_display = BaseUserAdmin.list_display + ('likes_count',)
+    list_display = BaseUserAdmin.list_display + ('feed',)

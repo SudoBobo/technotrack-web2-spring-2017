@@ -4,15 +4,21 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-from core.models import ModelWithDates, ModelWithAuthor
+from core.models import ModelWithDates, ModelWithAuthor, Feed
+
 
 
 class Feedable(models.Model):
-    def get_title_for_event(self, eventtype):
-        raise NotImplementedError
-
     class Meta:
         abstract = True
+
+    def get_text_for_event(self, eventtype):
+        raise NotImplementedError
+
+    # store feeds in which we are
+    # like in django docs example with articles(feedables) and publications(feeds)
+    feeds = models.ManyToManyField(Feed)
+
 
 
 class Like(ModelWithDates, ModelWithAuthor):
@@ -32,24 +38,37 @@ class Likeable(models.Model):
     likes_count = models.IntegerField(default=0)
 
 
-class Post(ModelWithAuthor, ModelWithDates, Likeable, Feedable):
-    def get_title_for_event(self, eventtype):
-        return u'Post with title {} was created'.format(self.title)
+class Comment(ModelWithAuthor, ModelWithDates, Likeable, Feedable):
+    def get_text_for_event(self, eventtype):
+        return u'Coment on post \'{}\' was created by {}'.format(self.object, self.author)
 
-    title = models.TextField(max_length=1024)
+    text = models.TextField()
+    text_was = None
+    edited = models.IntegerField(default=0)
+
+    content_type_id = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+
+    object = GenericForeignKey('content_type_id', 'object_id')
+
+
+class Commentable(models.Model):
+    class Meta:
+        abstract = True
+
+    comments = GenericRelation(Comment, object_id_field='object_id', content_type_field='content_type')
     comments_count = models.IntegerField(default=0)
 
 
-class Comment(ModelWithAuthor, ModelWithDates, Likeable):
-    # lol what how does it work?
-    # do django crete objects with fields below?
+class Post(ModelWithAuthor, ModelWithDates, Likeable, Feedable, Commentable):
+    def get_text_for_event(self, eventtype):
+        return u'Post with title {} was created by {}'.format(self.title, self.author)
 
-    # should not work
-    # nessesary to add method 'get_title_for_event'
-    text = models.TextField()
-    text_was = None
-    post = models.ForeignKey(Post)
-    edited = models.IntegerField(default=0)
+    title = models.TextField(max_length=1024)
+    text = models.TextField(max_length=2028)
+
+    comments_count = models.IntegerField(default=0)
 
 
-class Feed(models.Model):
+
+

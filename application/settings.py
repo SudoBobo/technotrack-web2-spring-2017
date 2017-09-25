@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'core.apps.CoreConfig',
+    'twitter.apps.TwitterConfig'
 ]
 
 MIDDLEWARE = [
