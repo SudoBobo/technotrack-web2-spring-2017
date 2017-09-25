@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.apps import AppConfig
 
+# config for separate app
 
 class CoreConfig(AppConfig):
     name = 'core'
