@@ -23,6 +23,7 @@ class User(AbstractUser):
         # 'twitter.Feed',
         Feed,
         on_delete=models.CASCADE,
+        default=1
     )
 
 
