@@ -11,21 +11,14 @@ class Feed(models.Model):
 
 class User(AbstractUser):
 
-
-    # feed = models.OneToOneField(
-    #     'twitter.Feed',
-    #     on_delete=models.CASCADE,
-    #     primary_key=True,
-    #
-    # )
-
-    feed = models.ForeignKey(
-        # 'twitter.Feed',
+    feed = models.OneToOneField(
         Feed,
         on_delete=models.CASCADE,
-        default=1
+        primary_key=True,
     )
 
+    content_objects_counter = models.IntegerField(default=0)
+    subscribers = models.ManyToManyField('User')
 
 class ModelWithDates(models.Model):
     created = models.DateTimeField(auto_now_add=True)
