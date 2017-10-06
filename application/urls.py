@@ -17,8 +17,32 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 
+
+# Serializers define the API representation.
+from rest_framework import serializers, viewsets, routers
+
+from core.models import User
+from core import views as core_views
+
+from twitter import views as twitter_views
+
+from rest_framework.authtoken import views
+
+router = routers.DefaultRouter()
+router.register(r'users', core_views.UserViewSet)
+router.register(r'posts',  twitter_views.PostViewSet)
+
+# Routers provide an easy way of automatically determining the URL conf.
+
+# Wire up our API using automatic URL routing.
+# Additionally, we include login URLs for the browsable API.
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'api1/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-token-auth/', views.obtain_auth_token)
+
 ]
 
 if settings.DEBUG:

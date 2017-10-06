@@ -7,7 +7,11 @@ from django.contrib.contenttypes.models import ContentType
 
 
 class Feed(models.Model):
-    pass
+    id = models.AutoField(primary_key=True)
+
+    # user = models.OneToOneField(
+    #
+    # )
 
 class User(AbstractUser):
 
