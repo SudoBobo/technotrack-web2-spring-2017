@@ -8,15 +8,15 @@ from twitter.models import Like, Comment
 @receiver(post_save, sender=Like)
 def like_postsave(instance, created=False, *args, **kwargs):
     if created:
-        instance.likes_count += 1
+        instance.object.likes_count += 1
         instance.object.save()
 
 
 @receiver(post_save, sender=Comment)
 def comment_postsave(instance, created=False, *args, **kwargs):
     if created:
-        instance.comments_count += 1
-        instance.save()
+        instance.object.comments_count += 1
+        instance.object.save()
 
 
 # for example we can do something when text changed in some particular comment
@@ -37,8 +37,8 @@ def comment_presave(instance, created=False, *args, **kwargs):
 def comment_postsave(instance, created=False, *args, **kwargs):
     if created:
         print '{} saved {}'.format(instance.author, instance)
-        instance.post.comment_count += 1
-        instance.post.save()
+        instance.object.comment_count += 1
+        instance.object.save()
     else:
         print'{} updated {}'.format(instance.author, instance)
 
@@ -52,3 +52,10 @@ def model_with_author_post_save(instance, created=False, *args, **kwargs):
 
 for model in ModelWithAuthor.__subclasses__():
     post_save.connect(receiver=model_with_author_post_save, sender=model)
+
+
+def feedable_model_post_save(instance, created=False, *args, **kwargs):
+    if created:
+        for subscriber in instance.author.subscribers:
+            instance.users_to_whom_this_object_is_in_feed += [subscriber]
+        instance.save()
