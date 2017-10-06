@@ -8,15 +8,15 @@ from twitter.models import Like, Comment
 @receiver(post_save, sender=Like)
 def like_postsave(instance, created=False, *args, **kwargs):
     if created:
-        instance.object.likes_count += 1
+        instance.likes_count += 1
         instance.object.save()
 
 
 @receiver(post_save, sender=Comment)
 def comment_postsave(instance, created=False, *args, **kwargs):
     if created:
-        instance.object.comments_count += 1
-        instance.object.save()
+        instance.comments_count += 1
+        instance.save()
 
 
 # for example we can do something when text changed in some particular comment

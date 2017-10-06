@@ -6,23 +6,10 @@ from django.contrib.contenttypes.models import ContentType
 
 
 
-class Feed(models.Model):
-    id = models.AutoField(primary_key=True)
-
-    # user = models.OneToOneField(
-    #
-    # )
 
 class User(AbstractUser):
-
-    feed = models.OneToOneField(
-        Feed,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
-
     content_objects_counter = models.IntegerField(default=0)
-    subscribers = models.ManyToManyField('User')
+    subscribers = models.ManyToManyField('User', )
 
 class ModelWithDates(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -33,7 +20,7 @@ class ModelWithDates(models.Model):
 
 
 class ModelWithAuthor(models.Model):
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(User, related_name='%(class)s_user_author')
 
     class Meta:
         abstract = True

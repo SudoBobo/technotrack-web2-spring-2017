@@ -4,8 +4,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-from core.models import ModelWithDates, ModelWithAuthor, Feed
-
+from core.models import ModelWithDates, ModelWithAuthor, User
 
 
 class Feedable(models.Model):
@@ -16,7 +15,7 @@ class Feedable(models.Model):
         raise NotImplementedError
 
     # store feeds in which this element are
-    feeds = models.ManyToManyField(Feed)
+    users_to_whom_this_object_is_in_feed = models.ManyToManyField(User, related_name='%(class)s_user_owner_of_feed')
 
 
 
