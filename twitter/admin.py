@@ -17,6 +17,12 @@ class CommentsInLine(GenericStackedInline):
     ct_fk_field = 'object_id'
 
 
+class PostsInLine(GenericStackedInline):
+    model = Post
+    ct_field = 'content_type_id'
+    ct_fk_field = 'object_id'
+
+
 @admin.register(Post)
 class PostAdmin(ModelAdmin):
     inlines = [
@@ -29,3 +35,5 @@ class CommentAdmin(ModelAdmin):
     inlines = [
         LikesInLine
     ]
+
+

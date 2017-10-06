@@ -5,11 +5,10 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.contenttypes.models import ContentType
 
 
-
-
 class User(AbstractUser):
     content_objects_counter = models.IntegerField(default=0)
     subscribers = models.ManyToManyField('User', )
+
 
 class ModelWithDates(models.Model):
     created = models.DateTimeField(auto_now_add=True)
