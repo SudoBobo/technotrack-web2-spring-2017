@@ -7,7 +7,4 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    # inlines = [
-    #     PostsInLine,
-    # ]
     pass

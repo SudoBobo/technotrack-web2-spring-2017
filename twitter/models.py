@@ -4,19 +4,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-from core.models import ModelWithDates, ModelWithAuthor, User
-
-
-class Feedable(models.Model):
-    class Meta:
-        abstract = True
-
-    def get_text_for_event(self, eventtype):
-        raise NotImplementedError
-
-    # store feeds in which this element are
-    users_to_whom_this_object_is_in_feed = models.ManyToManyField(User, related_name='%(class)s_user_owner_of_feed')
-
+from core.models import ModelWithDates, ModelWithAuthor, User, Feedable
 
 
 class Like(ModelWithDates, ModelWithAuthor):
@@ -30,7 +18,7 @@ class Likeable(models.Model):
     class Meta:
         abstract = True
 
-    likes = GenericRelation(Like, object_id_field='object_id', content_type_field='content_type')
+    likes = GenericRelation(Like, object_id_field='object_id', content_type_field='content_type_id')
     likes_count = models.IntegerField(default=0)
 
 
@@ -52,7 +40,7 @@ class Commentable(models.Model):
     class Meta:
         abstract = True
 
-    comments = GenericRelation(Comment, object_id_field='object_id', content_type_field='content_type')
+    comments = GenericRelation(Comment, object_id_field='object_id', content_type_field='content_type_id')
     comments_count = models.IntegerField(default=0)
 
 

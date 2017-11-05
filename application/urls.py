@@ -1,3 +1,4 @@
+# coding=utf-8
 """application URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -29,6 +30,7 @@ from twitter import views as twitter_views
 from rest_framework.authtoken import views
 
 router = routers.DefaultRouter()
+# todo скорее всего косяк тут
 router.register(r'users', core_views.UserViewSet)
 router.register(r'posts',  twitter_views.PostViewSet)
 

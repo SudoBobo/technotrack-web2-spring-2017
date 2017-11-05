@@ -7,6 +7,6 @@ from django.apps import AppConfig
 class TwitterConfig(AppConfig):
     name = 'twitter'
 
-    # def ready(self):
-    #     # import signal to provide model consistency
-    #     import signals
+    def ready(self):
+        # import signal to provide model consistency
+        import signals
