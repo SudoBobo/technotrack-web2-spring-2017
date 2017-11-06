@@ -6,6 +6,7 @@ from twitter.models import Like, Comment
 
 
 @receiver(post_save, sender=Like)
+# tested
 def like_postsave(instance, created=False, *args, **kwargs):
     if created:
         instance.object.likes_count += 1
@@ -14,6 +15,7 @@ def like_postsave(instance, created=False, *args, **kwargs):
 
 
 @receiver(post_save, sender=Comment)
+# tested
 def comment_postsave(instance, created=False, *args, **kwargs):
     if created:
         instance.object.comments_count += 1
@@ -25,15 +27,16 @@ def comment_postsave(instance, created=False, *args, **kwargs):
 def comment_init(instance, *args, **kwargs):
     instance.text_was = instance.text
 
-
+# works wrong
+# todo discuss with the teacher
 @receiver(pre_save, sender=Comment)
 def comment_presave(instance, created=False, *args, **kwargs):
     if not created and instance.text_was != instance.text:
         # update text_was value for further use
         instance.text_was = instance.text
-        instance.edited += 1
+        instance.edited = True
 
-
+# works
 @receiver(post_save, sender=Comment)
 def comment_postsave(instance, created=False, *args, **kwargs):
     if created:
@@ -44,16 +47,19 @@ def comment_postsave(instance, created=False, *args, **kwargs):
 
 # meta-receivers
 
+# works
 def model_with_author_post_save(instance, created=False, *args, **kwargs):
     if created:
         instance.author.content_objects_counter += 1
         instance.author.save()
 
+# works
 for model in ModelWithAuthor.__subclasses__():
     post_save.connect(receiver=model_with_author_post_save, sender=model)
 
 
 def feedable_model_post_save(instance, created=False, *args, **kwargs):
-    for subscriber in instance.author.subscribers:
-        subscriber.feed_objects.add(instance)
-        subscriber.save()
+    if created:
+        for subscriber in instance.author.subscribers:
+            subscriber.feed_objects.add(instance)
+            subscriber.save()

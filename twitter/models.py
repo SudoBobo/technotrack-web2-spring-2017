@@ -28,7 +28,7 @@ class Comment(ModelWithAuthor, ModelWithDates, Likeable, Feedable):
 
     text = models.TextField()
     text_was = None
-    edited = models.IntegerField(default=0)
+    edited = models.BooleanField(default=False)
 
     content_type_id = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
