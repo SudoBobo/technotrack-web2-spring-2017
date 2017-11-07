@@ -11,4 +11,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('username', 'email', 'content_objects_counter', 'is_staff')
 
 
+class UserBasicSerializer(serializers.HyperlinkedModelSerializer):
+    pass
+
+class UserDetaliedSerializer(serializers.HyperlinkedModelSerializer):
+    pass
 

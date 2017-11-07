@@ -5,23 +5,56 @@ from django.shortcuts import render, HttpResponse
 #     return HttpResponce(json)
 
 # ViewSets define the view behavior.
-from rest_framework import viewsets, mixins, generics
+from rest_framework import viewsets, mixins, generics, permissions
 from rest_framework.decorators import api_view, detail_route
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework.views import APIView
 
 from core.models import User
-from core.serializers import UserSerializer
+from core.permissions import IsOwnerOrNothing
+from core.serializers import UserSerializer, UserBasicSerializer, UserDetaliedSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
 
+    def get_serializer_class(self):
 
-    @detail_route(methods=['post'])
+        if self.action == 'list':
+            return UserBasicSerializer
+
+        if self.action == 'retrieve':
+            return UserDetaliedSerializer
+
+    @detail_route(methods=['get'], permissions=[IsOwnerOrOwnerFriend, IsAuthenticated,])
+    def subscribed_on(self, request, pk=None):
+        '''
+        List of 'pk' user's subscriptions on other users
+        '''
+        pass
+
+    @detail_route(methods=['get'], permissions=[IsOwnerOrOwnerFriend, IsAuthenticated,])
+    def subscribers(self, request, pk=None):
+        '''
+        List of 'pk' user subscribers
+        '''
+        pass
+
+    @detail_route(methods=['post', 'delete'])
     def subscribe(self, request, pk=None):
-            return Response({'status': 'password set'})
+        '''
+        (Un)Subscribe user (in request.user or in token) to user with 'pk'
+        '''
+        pass
+
+    @detail_route(methods=['get'], permissions=[IsOwnerOrOwnerFriend, IsAuthenticated,])
+    def posts(self, request, pk=None):
+        '''
+        List of all user's posts
+        '''
+
 
         # user = self.get_object()
         # serializer = UserSerializer(data=request.data)
@@ -32,6 +65,12 @@ class UserViewSet(viewsets.ModelViewSet):
         # else:
         #     return Response(serializer.errors,
         #                     status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrNothing)
 
 
 
