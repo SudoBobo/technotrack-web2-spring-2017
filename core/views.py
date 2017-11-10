@@ -1,3 +1,5 @@
+import inspect
+
 from django.shortcuts import render, HttpResponse
 
 # Create your views here.
@@ -13,12 +15,13 @@ from rest_framework.request import Request
 from rest_framework.views import APIView
 
 from core.models import User
-from core.permissions import IsOwnerOrNothing
+from core.permissions import IsOwnerOrNothing, IsUserOrUserFriend
 from core.serializers import UserSerializer, UserBasicSerializer, UserDetaliedSerializer
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
+    permissions = [IsAuthenticated,]
 
     def get_serializer_class(self):
 
@@ -28,32 +31,39 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         if self.action == 'retrieve':
             return UserDetaliedSerializer
 
-    @detail_route(methods=['get'], permissions=[IsOwnerOrOwnerFriend, IsAuthenticated,])
+    @detail_route(methods=['get'], permissions=[IsUserOrUserFriend ])
     def subscribed_on(self, request, pk=None):
-        '''
+        """
         List of 'pk' user's subscriptions on other users
-        '''
-        pass
+        """
+        return Response({'status': '{}'.format(inspect.stack()[0][3])})
 
-    @detail_route(methods=['get'], permissions=[IsOwnerOrOwnerFriend, IsAuthenticated,])
+    @detail_route(methods=['get'], permissions=[IsUserOrUserFriend, IsAuthenticated, ])
     def subscribers(self, request, pk=None):
-        '''
-        List of 'pk' user subscribers
-        '''
-        pass
+        """
+        List of 'pk' user's subscribers
+        """
+        user = self.get_object()
+        subscribers = user.subscribers
+        serializer = UserBasicSerializer(subscribers, many=True)
 
-    @detail_route(methods=['post', 'delete'])
+        return Response(serializer.data)
+
+    @detail_route(methods=['post', 'delete'], permissions=[IsAuthenticated])
     def subscribe(self, request, pk=None):
-        '''
+        """
         (Un)Subscribe user (in request.user or in token) to user with 'pk'
-        '''
-        pass
+        """
+        return Response({'status': '{}'.format(inspect.stack()[0][3])})
 
-    @detail_route(methods=['get'], permissions=[IsOwnerOrOwnerFriend, IsAuthenticated,])
+
+    @detail_route(methods=['get'], permissions=[IsUserOrUserFriend, IsAuthenticated, ])
     def posts(self, request, pk=None):
-        '''
+        """
         List of all user's posts
-        '''
+        """
+        return Response({'status': '{}'.format(inspect.stack()[0][3])})
+
 
 
         # user = self.get_object()
@@ -67,10 +77,10 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         #                     status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    permission_classes = (permissions.IsAuthenticated, IsOwnerOrNothing)
+# class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Profile.objects.all()
+#     serializer_class = ProfileSerializer
+#     permission_classes = (permissions.IsAuthenticated, IsOwnerOrNothing)
 
 
 
