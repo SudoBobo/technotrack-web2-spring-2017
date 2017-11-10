@@ -17,18 +17,11 @@ class IsUserOrUserFriend(permissions.BasePermission):
         assert isinstance(obj, User)
         user = obj
 
-
-        print("Perm")
-        print (user)
-        print (request.user)
-
         if user == request.user:
             return True
 
-        # We assume that users A and B are friends if they both
-        # subscribed on each other
-        # if request.user in user.user_subscriptions and user in request.user.user_subscriptions:
-        #     return True
+        if request.user in user.user_subscriptions and user in request.user.user_subscriptions:
+            return True
 
         return False
 
