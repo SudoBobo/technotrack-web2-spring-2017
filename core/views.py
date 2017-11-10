@@ -31,19 +31,20 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         if self.action == 'retrieve':
             return UserDetaliedSerializer
 
-    @detail_route(methods=['get'], permissions=[IsUserOrUserFriend ])
+    @detail_route(methods=['get'], permissions=[IsUserOrUserFriend])
     def subscribed_on(self, request, pk=None):
         """
         List of 'pk' user's subscriptions on other users
         """
         return Response({'status': '{}'.format(inspect.stack()[0][3])})
 
-    @detail_route(methods=['get'], permissions=[IsUserOrUserFriend, IsAuthenticated, ])
+    @detail_route(methods=['get'], permission_classes=[IsUserOrUserFriend])
     def subscribers(self, request, pk=None):
         """
         List of 'pk' user's subscribers
         """
         user = self.get_object()
+
         subscribers = user.subscribers
         serializer = UserBasicSerializer(subscribers, many=True)
 
