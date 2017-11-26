@@ -30,7 +30,7 @@ from core.views import UserViewSet
 from twitter import views as twitter_views
 
 from rest_framework.authtoken import views
-
+from core.views import vk_auth_view
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -40,6 +40,8 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^api1/', include(router.urls)),
+    url(r'^social/', include('social_django.urls', namespace='social')),
+    url(r'^vk_auth/', vk_auth_view)
 ]
 
 if settings.DEBUG:

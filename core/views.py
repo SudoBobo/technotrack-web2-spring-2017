@@ -17,6 +17,14 @@ from rest_framework.views import APIView
 from core.models import User
 from core.permissions import IsOwnerOrNothing, IsUserOrUserFriend
 from core.serializers import UserSerializer, UserBasicSerializer, UserDetaliedSerializer
+from django.http import HttpResponse
+import datetime
+
+
+def vk_auth_view(request):
+    html = '<a href="http://127.0.0.1:8000/social/login/vk-oauth2/">Enter via VK</a>'
+
+    return HttpResponse(html)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -36,8 +44,9 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         """
         List of 'pk' user's subscriptions on other users
         """
-        return Response({'status': '{}'.format(inspect.stack()[0][3])})
+        user = self.get_object()
 
+        user_subscriptions = self.get_queryset().filter()
     @detail_route(methods=['get'], permission_classes=[IsUserOrUserFriend])
     def subscribers(self, request, pk=None):
         """
