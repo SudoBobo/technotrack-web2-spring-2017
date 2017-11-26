@@ -89,8 +89,8 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         """
         List of all user's posts
         """
-        user = User.objects.get(pk=pk)
-        serializer = PostSerializer(Post.objects.filter(author=user), many=True)
+        # user = User.objects.get(pk=pk)
+        serializer = PostSerializer(Post.objects.filter(author__id=pk), many=True)
         return Response(serializer.data)
 
 

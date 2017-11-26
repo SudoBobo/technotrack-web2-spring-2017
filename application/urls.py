@@ -31,9 +31,11 @@ from twitter import views as twitter_views
 
 from rest_framework.authtoken import views
 from core.views import vk_auth_view
+from twitter.views import PostViewSet
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'posts', PostViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

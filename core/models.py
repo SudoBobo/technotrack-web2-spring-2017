@@ -15,7 +15,6 @@ class Feedable(models.Model):
 class User(AbstractUser):
     content_objects_counter = models.IntegerField(default=0)
     subscribers = models.ManyToManyField('User', related_name='subscriptions')
-    # subscriptions = models.ManyToManyField('User')
     feed_objects = models.ManyToManyField('Feedable')
 
 
@@ -28,6 +27,6 @@ class ModelWithDates(models.Model):
 
 
 class ModelWithAuthor(models.Model):
-    author = models.ForeignKey(User, related_name='+')
+    author = models.ForeignKey(User, related_name='authored_%(class)s')
     class Meta:
         abstract = True
