@@ -14,16 +14,26 @@ class IsUserOrUserFriend(permissions.BasePermission):
     """
     def has_object_permission(self, request, view, obj):
 
-        assert isinstance(obj, User)
+        if not isinstance(obj, User):
+            return False
+
         user = obj
 
         if user == request.user:
             return True
 
-        if request.user in user.user_subscriptions and user in request.user.user_subscriptions:
+        if request.user in user.subscriptions.all() and user in request.user.subscriptions.all():
             return True
 
         return False
 
-    # def has_object_permission(self, request, view, obj):
-    #     return True
+
+class IsUser(permissions.BasePermission):
+
+    def has_object_permission(self, request, view, obj):
+
+        if not isinstance(obj, User):
+            return False
+
+        user = obj
+        return user == request.user

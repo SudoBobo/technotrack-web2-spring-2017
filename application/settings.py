@@ -145,8 +145,8 @@ REST_FRAMEWORK = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.vk.VKOAuth2',
 )
 
 SOCIAL_AUTH_VK_OAUTH2_KEY = config.get('social', 'VK_KEY')
@@ -157,7 +157,6 @@ SOCIAL_AUTH_VK_SCOPE = [
 
 # LOGIN_REDIRECT_URL = 'http://localhost:8000/social/complete/vk-oauth2/'
 LOGIN_REDIRECT_URL = 'http://localhost:8000/api1/'
-
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',

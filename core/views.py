@@ -1,13 +1,7 @@
 import inspect
 
-from django.shortcuts import render, HttpResponse
-
-# Create your views here.
-# def getlikes(request):
-#     return HttpResponce(json)
-
 # ViewSets define the view behavior.
-from rest_framework import viewsets, mixins, generics, permissions
+from rest_framework import viewsets, mixins, generics, permissions, status
 from rest_framework.decorators import api_view, detail_route
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -15,10 +9,12 @@ from rest_framework.request import Request
 from rest_framework.views import APIView
 
 from core.models import User
-from core.permissions import IsOwnerOrNothing, IsUserOrUserFriend
-from core.serializers import UserSerializer, UserBasicSerializer, UserDetaliedSerializer
+from core.permissions import IsOwnerOrNothing, IsUserOrUserFriend, IsUser
+from core.serializers import UserBasicSerializer, UserDetaliedSerializer
 from django.http import HttpResponse
-import datetime
+
+from twitter.models import Post
+from twitter.serializers import PostSerializer
 
 
 def vk_auth_view(request):
@@ -29,7 +25,13 @@ def vk_auth_view(request):
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
+
+    # this line doesn't do anything about permissions, but lack of it cause exception
     permissions = [IsAuthenticated,]
+    # this line provide correct IsAuthenticated policy
+    permission_classes = (IsAuthenticated,)
+
+
 
     def get_serializer_class(self):
 
@@ -45,8 +47,12 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         List of 'pk' user's subscriptions on other users
         """
         user = self.get_object()
+        subscriptions = user.subscriptions
 
-        user_subscriptions = self.get_queryset().filter()
+        serializer = UserBasicSerializer(subscriptions, many=True)
+        return Response(serializer.data)
+
+
     @detail_route(methods=['get'], permission_classes=[IsUserOrUserFriend])
     def subscribers(self, request, pk=None):
         """
@@ -59,20 +65,33 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
         return Response(serializer.data)
 
-    @detail_route(methods=['post', 'delete'], permissions=[IsAuthenticated])
+    @detail_route(methods=['post'], permissions=[IsUser])
     def subscribe(self, request, pk=None):
         """
-        (Un)Subscribe user (in request.user or in token) to user with 'pk'
+        Subscribe user (in request.user or in token) to user with 'pk'
         """
-        return Response({'status': '{}'.format(inspect.stack()[0][3])})
+        user = self.get_object()
+        user_to_subscribe_on = User.objects.get(pk=request.data['subscribe_to'])
+        user_to_subscribe_on.subscribers.add(user)
+        user_to_subscribe_on.save()
+        return  Response(status=status.HTTP_201_CREATED)
 
+    @detail_route(methods=['post'], permissions=[IsUser])
+    def unsubscribe(self, request, pk=None):
+        user = self.get_object()
+        user_to_unsubscribe_on = User.objects.get(pk=request.data['unsubscribe_to'])
+        user_to_unsubscribe_on.subscribers.remove(user)
+        user_to_unsubscribe_on.save()
+        return Response(status=status.HTTP_201_CREATED)
 
-    @detail_route(methods=['get'], permissions=[IsUserOrUserFriend, IsAuthenticated, ])
+    @detail_route(methods=['get'], permissions=[IsUserOrUserFriend ])
     def posts(self, request, pk=None):
         """
         List of all user's posts
         """
-        return Response({'status': '{}'.format(inspect.stack()[0][3])})
+        user = User.objects.get(pk=pk)
+        serializer = PostSerializer(Post.objects.filter(author=user), many=True)
+        return Response(serializer.data)
 
 
 

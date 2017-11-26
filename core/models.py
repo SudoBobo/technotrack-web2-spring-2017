@@ -14,7 +14,8 @@ class Feedable(models.Model):
 
 class User(AbstractUser):
     content_objects_counter = models.IntegerField(default=0)
-    subscribers = models.ManyToManyField('User')
+    subscribers = models.ManyToManyField('User', related_name='subscriptions')
+    # subscriptions = models.ManyToManyField('User')
     feed_objects = models.ManyToManyField('Feedable')
 
 
