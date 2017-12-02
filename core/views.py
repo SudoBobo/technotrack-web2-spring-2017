@@ -72,7 +72,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         """
         user = self.get_object()
         user_to_subscribe_on = User.objects.get(pk=request.data['subscribe_to'])
-        user_to_subscribe_on.subscribers.add(user)
+        user_to_subscribe_on.add_subscriber(user)
         user_to_subscribe_on.save()
         return  Response(status=status.HTTP_201_CREATED)
 
@@ -80,7 +80,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     def unsubscribe(self, request, pk=None):
         user = self.get_object()
         user_to_unsubscribe_on = User.objects.get(pk=request.data['unsubscribe_to'])
-        user_to_unsubscribe_on.subscribers.remove(user)
+        user_to_unsubscribe_on.remove_subscriber(user)
         user_to_unsubscribe_on.save()
         return Response(status=status.HTTP_201_CREATED)
 

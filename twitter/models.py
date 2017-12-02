@@ -23,7 +23,7 @@ class Likeable(models.Model):
 
 
 class Comment(ModelWithAuthor, ModelWithDates, Likeable, Feedable):
-    def get_text_for_event(self, eventtype):
+    def get_text_for_event(self):
         return u'Comment on post \'{}\' was created by {}'.format(self.object, self.author)
 
     text = models.TextField()
@@ -45,7 +45,7 @@ class Commentable(models.Model):
 
 
 class Post(ModelWithAuthor, ModelWithDates, Likeable, Feedable, Commentable):
-    def get_text_for_event(self, eventtype):
+    def get_text_for_event(self):
         return u'Post with title {} was created by {}'.format(self.title, self.author)
 
     title = models.TextField(max_length=1024)

@@ -31,17 +31,19 @@ from twitter import views as twitter_views
 
 from rest_framework.authtoken import views
 from core.views import vk_auth_view
-from twitter.views import PostViewSet
+from twitter.views import PostViewSet, CommentViewSet, feed
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'posts', PostViewSet)
+router.register(r'comments', CommentViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^api1/', include(router.urls)),
+    url(r'^api1/feed', feed),
     url(r'^social/', include('social_django.urls', namespace='social')),
     url(r'^vk_auth/', vk_auth_view)
 ]

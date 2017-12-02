@@ -16,13 +16,13 @@ from core.models import User
 class UserBasicSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('username', )
-        read_only_fields = ('username',)
+        fields = ('username', 'pk',)
+        read_only_fields = ('username', 'pk',)
 
 
 class UserDetaliedSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email', 'content_objects_counter', 'is_staff')
-        read_only_fields = ('username', 'email', 'content_objects_counter', 'is_staff')
+        fields = ('username', 'pk', 'email', 'content_objects_counter', 'is_staff')
+        read_only_fields = ('username', 'pk', 'email', 'content_objects_counter', 'is_staff')
 
