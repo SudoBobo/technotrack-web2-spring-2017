@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'twitter.apps.TwitterConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'social_django'
+    'social_django',
+    'webpack_loader',
 
 ]
 
@@ -172,3 +173,15 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
     'social_core.pipeline.social_auth.associate_by_email',
 )
+
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'assets'), # We do this so that django's collectstatic copies or our bundles to the STATIC_ROOT or syncs them to whatever storage we use.
+)
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+    }
+}

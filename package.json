@@ -1,0 +1,33 @@
+{
+  "name": "technotrack-web2-spring-2017",
+  "version": "1.0.0",
+  "description": "dependencies for django-based twitter clone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SudoBobo/technotrack-web2-spring-2017.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SudoBobo/technotrack-web2-spring-2017/issues"
+  },
+  "homepage": "https://github.com/SudoBobo/technotrack-web2-spring-2017#readme",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "react": "^16.2.0",
+    "webpack": "^3.9.1",
+    "webpack-bundle-tracker": "^0.2.0"
+  },
+
+  "scripts": {
+  "build": "webpack --config webpack.config.js --progress --colors",
+  "build-production": "webpack --config webpack.prod.config.js --progress --colors",
+  "watch": "node server.js"
+}
+}
