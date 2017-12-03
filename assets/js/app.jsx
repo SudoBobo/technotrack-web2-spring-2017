@@ -1,7 +1,11 @@
-var React = require('react')
-
-module.exports = React.createClass({
-   render: function(){
-       return <h1>Hello, world.</h1>
-   }
-})
+// var React = require('react')
+//
+// module.exports = class HelloMessage extends React.Component {
+//   render() {
+//     return (
+//       <div>
+//         Hello {this.props.name}
+//       </div>
+//     );
+//   }
+// }

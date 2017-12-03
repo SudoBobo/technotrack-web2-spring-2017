@@ -1,4 +1,7 @@
-var React = require('react')
-var App = require('./app.jsx')
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-React.render(<App/>, document.getElementById('react-app'))
+ReactDOM.render(
+  <h1>Hello, world!</h1>,
+  document.getElementById('root')
+);

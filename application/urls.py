@@ -25,7 +25,7 @@ from rest_framework.routers import DefaultRouter
 
 from core.models import User
 from core import views as core_views
-from core.views import UserViewSet
+from core.views import UserViewSet, IndexView
 
 from twitter import views as twitter_views
 
@@ -45,7 +45,8 @@ urlpatterns = [
     url(r'^api1/', include(router.urls)),
     url(r'^api1/feed', feed),
     url(r'^social/', include('social_django.urls', namespace='social')),
-    url(r'^vk_auth/', vk_auth_view)
+    url(r'^vk_auth/', vk_auth_view),
+    url(r'^', IndexView.as_view()),
 ]
 
 if settings.DEBUG:

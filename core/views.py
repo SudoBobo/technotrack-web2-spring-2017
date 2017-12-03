@@ -1,6 +1,7 @@
 import inspect
 
 # ViewSets define the view behavior.
+from django.views.generic import TemplateView
 from rest_framework import viewsets, mixins, generics, permissions, status
 from rest_framework.decorators import api_view, detail_route
 from rest_framework.permissions import IsAuthenticated
@@ -21,6 +22,10 @@ def vk_auth_view(request):
     html = '<a href="http://127.0.0.1:8000/social/login/vk-oauth2/">Enter via VK</a>'
 
     return HttpResponse(html)
+
+
+class IndexView(TemplateView):
+    template_name = "core/index.html"
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
