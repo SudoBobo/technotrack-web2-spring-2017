@@ -7,16 +7,19 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 module.exports = {
 
-    context: __dirname,
-    // context: `${__dirname}/asserts/js`,
+    // context: __dirname,
+    context: `${__dirname}/assets/js`,
 
-    entry: './assets/js/index', // entry point of our app. assets/js/index.js should require other js modules and dependencies it needs
+    entry: './index', // entry point of our app. assets/js/index.js should require other js modules and dependencies it needs
 
     output: {
         path: path.resolve('./assets/bundles/'),
         filename: NODE_ENV === 'development' ? '[name].js' : '[name]-[hash].js',
 
     },
+
+    devtool: NODE_ENV === 'development' ? 'cheap-inline-module-source-map' : false,
+
 
     plugins: [
         new BundleTracker({filename: './webpack-stats.json'}),
@@ -26,12 +29,22 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader',
+                test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel-loader',
                 query:
                     {
                         presets: ['react']
                     }
             }, // to transform JSX into JS
+
+            {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader',
+            },
+
+            {
+                test: /\.(png|jpg|gif|svg|ttf|eot|woff|woff2)$/,
+                loader: 'url-loader?limit=4096&name=[path][name].[ext]',
+            },
         ],
     },
 
@@ -40,7 +53,7 @@ module.exports = {
         extensions: ['.js', '.jsx']
     },
 
-    watch: true
+    watch: NODE_ENV === 'development'
 };
 
 if (NODE_ENV !== 'development') {
