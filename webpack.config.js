@@ -10,7 +10,7 @@ module.exports = {
     // context: __dirname,
     context: `${__dirname}/assets/js`,
 
-    entry: './index', // entry point of our app. assets/js/index.js should require other js modules and dependencies it needs
+    entry: './app', // entry point of our app. assets/js/index.js should require other js modules and dependencies it needs
 
     output: {
         path: path.resolve('./assets/bundles/'),
@@ -39,6 +39,11 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader',
+            },
+
+            {
+                test: /\.scss$/,
+                loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded',
             },
 
             {
