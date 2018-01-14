@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import NavigationPanel from './components/major_components/NavigationPanel'
 import RegisterLogin from './components/major_components/RegisterLogin'
+import Feed from './components/major_components/Feed'
 
 import '../style/style.css'
 
@@ -9,12 +10,12 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPage: 'registerLogin'
+            currentPage: 'registerLogin',
         };
 
         this.pages = {
             registerLogin: RegisterLogin,
-            // feed: <Feed/>,
+            feed: Feed,
             // post: <Post/>,
             // friends: <Friends/>,
             // friendProfile: <FriendProfile/>,
@@ -31,6 +32,8 @@ class App extends React.Component {
             console.log('there is no such page title! (from \'changePage\' function)')
         }
     }
+
+
 
     render() {
 
