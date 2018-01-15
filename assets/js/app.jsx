@@ -9,8 +9,9 @@ import '../style/style.css'
 class App extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            currentPage: 'registerLogin',
+            currentPage: localStorage.getItem('token') ? "feed" : "registerLogin",
         };
 
         this.pages = {

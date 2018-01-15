@@ -1,52 +1,76 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import apiURLs from '../../apiURLs.jsx'
 
-// class FeedElement extends React.Component {
-//
-//     static propTypes = {
-//         pk: PropTypes.number.isRequired,
-//         likes_count: PropTypes.number,
-//         type: PropTypes.string,
-//         text: PropTypes.string,
-//     };
-//
-//     render() {
-//         return (
-//             <li>
-//                 <div>
-//                     {props.text},
-//                     <div></div>
-//                     {props.likes_count}
-//                 </div>
-//             </li>
-//         );
-//     }
-// }
+// TODO добавить загрузку
+class FeedElement extends React.Component {
+
+    // static propTypes = {
+    //     pk: PropTypes.number.isRequired,
+    //     likes_count: PropTypes.number,
+    //     type: PropTypes.string,
+    //     text: PropTypes.string,
+    // };
+
+    render() {
+        return (
+            <li>
+                <div>
+                    Пост номер: {this.props.pk}
+                    <div> </div>
+                    {this.props.text},
+                    <div> </div>
+                    Число лайков: {this.props.likes_count}
+                </div>
+            </li>
+        );
+    }
+}
 
 class Feed extends React.Component {
 
+    constructor(props){
+        super(props);
+        this.state = {feedList:[]};
+    }
+
     componentDidMount() {
-        // берём токен
-        // грузим
-        // кладём в стэйт
+
+        fetch(apiURLs.feed, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            }
+        }).then(
+            body => body.json(),
+        ).then(
+            (json) => {
+                console.log(`server response: ${JSON.stringify(json)}`);
+                this.setState({feedList:json});
+            },
+        );
     }
 
     // грузим на дид маунте
     render() {
 
-        // const FeedItems = number.map((pks) =>
-        //     <FeedElement pk={}/>
-        // );
+        if (this.state.feedList.length <= 0){
+            return (<div> </div>);
+        }
 
-        // return (
-        //     <ul>
-        //         {FeedItems}
-        //     </ul>
-        // );
+        // key={item.pk}
+        const feedItems = this.state.feedList.map(
+            (item, index) => <FeedElement key={index} text={item.text} likes_count={item.likes_count} pk={item.pk}/>
+        );
 
         return (
-            <div> Feeeeeed </div>
+            <ul>
+                {feedItems}
+            </ul>
         );
+
     }
 }
 
