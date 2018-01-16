@@ -46,13 +46,11 @@ class Feed extends React.Component {
             body => body.json(),
         ).then(
             (json) => {
-                console.log(`server response: ${JSON.stringify(json)}`);
                 this.setState({feedList:json});
             },
         );
     }
 
-    // грузим на дид маунте
     render() {
 
         if (this.state.feedList.length <= 0){
