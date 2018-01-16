@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import apiURLs from '../../apiURLs.jsx'
 
-// TODO добавить загрузку
 class FeedElement extends React.Component {
 
     // static propTypes = {
@@ -16,9 +15,9 @@ class FeedElement extends React.Component {
         return (
             <li>
                 <div>
-                    Пост номер: {this.props.pk}
+                    Айди: {this.props.pk}
                     <div> </div>
-                    {this.props.text},
+                    Текст элемента: {this.props.text}
                     <div> </div>
                     Число лайков: {this.props.likes_count}
                 </div>
