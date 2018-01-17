@@ -4,6 +4,8 @@ import NavigationPanel from './components/major_components/NavigationPanel'
 import RegisterLogin from './components/major_components/RegisterLogin'
 import Feed from './components/major_components/Feed'
 import Post from './components/major_components/Post'
+import Friends from './components/major_components/Friends'
+import MyProfile from './components/major_components/MyProfile'
 import '../style/style.css'
 
 class App extends React.Component {
@@ -18,9 +20,9 @@ class App extends React.Component {
             registerLogin: RegisterLogin,
             feed: Feed,
             post: Post,
-            // friends: Friends,
+            friends: Friends,
             // friendProfile: FriendProfile,
-            // myProfile: MyProfile
+            myProfile: MyProfile
         };
 
         this.changePage = this.changePage.bind(this);
