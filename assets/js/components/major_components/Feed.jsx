@@ -11,15 +11,29 @@ class FeedElement extends React.Component {
     //     text: PropTypes.string,
     // };
 
+    constructor(props) {
+        super(props);
+        this.onClickPost = this.onClickPost.bind(this);
+    }
+
+    onClickPost(event) {
+        this.props.onChangePage('post');
+    }
+
+
     render() {
         return (
             <li>
                 <div>
                     Айди: {this.props.pk}
-                    <div> </div>
+                    <div></div>
                     Текст элемента: {this.props.text}
-                    <div> </div>
+                    <div></div>
                     Число лайков: {this.props.likes_count}
+                    <div></div>
+                    <button onClick={this.onClickPost}>
+                        Перейти к этому посту
+                    </button>
                 </div>
             </li>
         );
@@ -28,9 +42,9 @@ class FeedElement extends React.Component {
 
 class Feed extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state = {feedList:[]};
+        this.state = {feedList: []};
     }
 
     componentDidMount() {
@@ -46,20 +60,21 @@ class Feed extends React.Component {
             body => body.json(),
         ).then(
             (json) => {
-                this.setState({feedList:json});
+                this.setState({feedList: json});
             },
         );
     }
 
     render() {
 
-        if (this.state.feedList.length <= 0){
-            return (<div> </div>);
+        if (this.state.feedList.length <= 0) {
+            return (<div></div>);
         }
 
         // key={item.pk}
         const feedItems = this.state.feedList.map(
-            (item, index) => <FeedElement key={index} text={item.text} likes_count={item.likes_count} pk={item.pk}/>
+            (item, index) => <FeedElement key={index} onChangePage={this.props.onChangePage} text={item.text}
+                                          likes_count={item.likes_count} pk={item.pk}/>
         );
 
         return (

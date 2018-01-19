@@ -6,15 +6,11 @@ class NavigationPanel extends React.Component {
     constructor(props) {
         super(props);
 
-        this.onClickPost = this.onClickPost.bind(this);
         this.onClickFeed = this.onClickFeed.bind(this);
         this.onClickMyProfile = this.onClickMyProfile.bind(this);
         this.onClickFriends = this.onClickFriends.bind(this);
     }
 
-    onClickPost(event) {
-        this.props.onChangePage('post');
-    }
 
     onClickFeed(event) {
         this.props.onChangePage('feed');
@@ -34,10 +30,6 @@ class NavigationPanel extends React.Component {
             <div>
                 <button onClick={this.onClickFeed}>
                     feed
-                </button>
-
-                <button onClick={this.onClickPost}>
-                    post
                 </button>
 
                 <button onClick={this.onClickMyProfile}>

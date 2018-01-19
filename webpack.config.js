@@ -10,8 +10,12 @@ module.exports = {
     // context: __dirname,
     context: `${__dirname}/assets/js`,
 
-    entry: './app', // entry point of our app. assets/js/index.js should require other js modules and dependencies it needs
 
+    // entry: './app',
+    entry: {
+        main: './app',
+        testRedux: './testRedux',
+    },
     output: {
         path: path.resolve('./assets/bundles/'),
         filename: NODE_ENV === 'development' ? '[name].js' : '[name]-[hash].js',
