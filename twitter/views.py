@@ -72,15 +72,21 @@ def feed(request):
     feed_objects = user.feed_objects.all()[offset:offset + limit]
     data = []
 
-
     for obj in feed_objects:
 
         if hasattr(obj, 'post'):
             obj = obj.post
+            data.append({"pk": obj.pk, "type": obj.__class__.__name__,
+                         "text": obj.text, "likes_count": obj.likes_count,
+                         "author": obj.author.username, "author_id": obj.author.id, "title": obj.title,
+                         "comments":[comment.id for comment in obj.comments.all()]})
+
+
         elif hasattr(obj, 'comment'):
             obj = obj.comment
-
-        data.append({"pk": obj.pk, "type": obj.__class__.__name__,
-                     "text": obj.text, "likes_count": obj.likes_count})
+            data.append({"pk": obj.pk, "type": obj.__class__.__name__,
+                         "text": obj.text, "likes_count": obj.likes_count,
+                         "author": obj.author.username, "author_id": obj.author.id,
+                         "object_id": obj.object.id})
 
     return Response(data)

@@ -15,7 +15,7 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ('author',)
-        read_only_fields = ('auhtor', )
+        read_only_fields = ('author', )
 
 
 class CommentSerializer(serializers.ModelSerializer):
