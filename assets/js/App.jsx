@@ -24,16 +24,21 @@ class App extends React.Component {
     render() {
 
         return (<div>
-            {/*<Link to="/friends/">Друзья</Link>*/}
-            {/*<Link to="/profile/">Мой профиль</Link>*/}
-            {/*<Link to="/feed/">Лента</Link>*/}
+            <Link to="/friends/">Друзья</Link>
+            <Link to="/profile/">Мой профиль</Link>
+            <Link to="/feed/">Лента</Link>
 
             <Switch>
                 <Route exact path="/" component={() => <h2>Тест</h2>}/>
+                <Route exact path="/friends/" component={Friends}/>
+                {/*<Route exact path="/profile/" component={Profile}/>*/}
+                {/*<Route exact path="/feed/" component={Fedd}/>*/}
+
+
                 {/*<Route*/}
-                    {/*exact*/}
-                    {/*path="/create/"*/}
-                    {/*render={props => <TaskForm {...props} onCreate={this.onTaskCreate}/>}*/}
+                {/*exact*/}
+                {/*path="/create/"*/}
+                {/*render={props => <TaskForm {...props} onCreate={this.onTaskCreate}/>}*/}
                 {/*/>*/}
                 {/*<Route exact path="/tasklist/" component={TaskList}/>*/}
             </Switch>
@@ -43,7 +48,6 @@ class App extends React.Component {
 }
 
 export default App;
-
 
 
 // добавим ещё обертку, которая будет

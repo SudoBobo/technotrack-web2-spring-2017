@@ -10,11 +10,8 @@ import initStore from './utils/store';
 
 import '../style/style.css'
 
-// что это?
 const history = createHistory();
-// что это?
 const middleware = routerMiddleware(history);
-
 
 ReactDOM.render(
     <Provider store={ initStore([middleware]) }>
