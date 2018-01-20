@@ -11,6 +11,21 @@ class FeedElement extends React.Component {
     //     text: PropTypes.string,
     // };
 
+
+    // контекст задаётся родительским компонентом
+    // потенциально он доступен всем детям
+    // в контекст тайпс мы говорим, что
+    // именно хотим получить из стора
+
+    // получая из контекста стор, мы можем:
+    // диспатч сделать, чтобы изменить стейт
+    // подписаться, чтобы изменить свой стейт
+    // почитать сторе
+
+    static contextTypes = {
+        store: PropTypes.object,
+    };
+
     constructor(props) {
         super(props);
         this.onClickPost = this.onClickPost.bind(this);
@@ -47,7 +62,7 @@ class Feed extends React.Component {
         this.state = {feedList: []};
     }
 
-    componentDidMount() {
+    componentDidMount(props) {
 
         fetch(apiURLs.feed, {
             method: 'GET',
@@ -63,9 +78,30 @@ class Feed extends React.Component {
                 this.setState({feedList: json});
             },
         );
+
+        // // вот тут результат нужно
+        // // положить в экшон
+        // // а экшон сунуть в диспатч
+        //
+        // this.context.store.subscribe(
+        //     () => {
+        //         setState({this.context.store.getStore.tasks})
+        //     })
+        //
+        // // и тут вызывать экшон крейтор,
+        // // который делает изЛоадинг тру
+        // this.context.store.dispatch()
+
+        // так делать не нужно, нужно делать через
+        // редакс коннект
+
+
     }
 
     render() {
+
+        // тут обращаемся context.store.getState
+        // вместо пропсов
 
         if (this.state.feedList.length <= 0) {
             return (<div></div>);
@@ -87,3 +123,9 @@ class Feed extends React.Component {
 }
 
 export default Feed;
+
+// вызовет компанент с пропсами, которые
+// получились из кусков стора
+// аналогично с продиспатченными экшонами
+export default connect(mapStateToProps,
+    mapDispatchToProps)(Feed);

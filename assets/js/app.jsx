@@ -1,20 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+
+import initStore from './utils'
+
 import NavigationPanel from './components/major_components/NavigationPanel'
 import RegisterLogin from './components/major_components/RegisterLogin'
 import Feed from './components/major_components/Feed'
 import Post from './components/major_components/Post'
 import Friends from './components/major_components/Friends'
 import MyProfile from './components/major_components/MyProfile'
+
 import '../style/style.css'
 
 class App extends React.Component {
     constructor(props) {
         super(props);
 
+        // это всё хранится в сторе
+
         this.state = {
-            currentPage: localStorage.getItem('token') ? "feed" : "registerLogin",
+            currentPage: localStorage.getItem('token') ? 'feed' : 'registerLogin',
         };
+
+
 
         this.pages = {
             registerLogin: RegisterLogin,
@@ -37,7 +46,6 @@ class App extends React.Component {
     }
 
 
-
     render() {
 
         const CurrentPage = this.pages[this.state.currentPage];
@@ -51,12 +59,16 @@ class App extends React.Component {
 }
 
 
-
-
+// добавим ещё обертку, которая будет
+// хранить текущую страничку (location)
+// не window.location, а ...redux.location
 ReactDOM.render(
-    <App/>,
-    document.getElementById('root')
-);
+    <Provider store={initStore()}>
+        <App/>
+    </Provider>,
+document.getElementById('root')
+)
+;
 
 //
 // // class component
