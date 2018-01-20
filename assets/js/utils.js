@@ -1,4 +1,6 @@
-import {createStore, applyMiddleware, compose} from 'redex'
+import {createStore, applyMiddleware, compose} from 'redux';
+import {Switch, Route, Link} from 'react-router-dom'
+
 
 import initReducers from './reducers';
 import middlewares from './middlewares';

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-
+import {Switch, Route, Link} from 'react-router-dom';
 import initStore from './utils'
 
 import NavigationPanel from './components/major_components/NavigationPanel'
@@ -11,64 +11,45 @@ import Post from './components/major_components/Post'
 import Friends from './components/major_components/Friends'
 import MyProfile from './components/major_components/MyProfile'
 
-import '../style/style.css'
-
 class App extends React.Component {
     constructor(props) {
         super(props);
-
-        // это всё хранится в сторе
 
         this.state = {
             currentPage: localStorage.getItem('token') ? 'feed' : 'registerLogin',
         };
 
-
-
-        this.pages = {
-            registerLogin: RegisterLogin,
-            feed: Feed,
-            post: Post,
-            friends: Friends,
-            // friendProfile: FriendProfile,
-            myProfile: MyProfile
-        };
-
-        this.changePage = this.changePage.bind(this);
     }
-
-    changePage(newPageTitle) {
-        if (newPageTitle in this.pages) {
-            this.setState({currentPage: newPageTitle});
-        } else {
-            console.log('there is no such page title! (from \'changePage\' function)')
-        }
-    }
-
 
     render() {
 
-        const CurrentPage = this.pages[this.state.currentPage];
-        console.log(this.state.currentPage);
+        return (<div>
+            {/*<Link to="/friends/">Друзья</Link>*/}
+            {/*<Link to="/profile/">Мой профиль</Link>*/}
+            {/*<Link to="/feed/">Лента</Link>*/}
 
-        return <div>
-            <NavigationPanel onChangePage={this.changePage}/>
-            <CurrentPage onChangePage={this.changePage}/>
-        </div>;
+            <Switch>
+                <Route exact path="/" component={() => <h2>Тест</h2>}/>
+                {/*<Route*/}
+                    {/*exact*/}
+                    {/*path="/create/"*/}
+                    {/*render={props => <TaskForm {...props} onCreate={this.onTaskCreate}/>}*/}
+                {/*/>*/}
+                {/*<Route exact path="/tasklist/" component={TaskList}/>*/}
+            </Switch>
+
+        </div>);
     }
 }
+
+export default App;
+
 
 
 // добавим ещё обертку, которая будет
 // хранить текущую страничку (location)
 // не window.location, а ...redux.location
-ReactDOM.render(
-    <Provider store={initStore()}>
-        <App/>
-    </Provider>,
-document.getElementById('root')
-)
-;
+
 
 //
 // // class component

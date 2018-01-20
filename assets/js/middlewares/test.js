@@ -1,6 +1,6 @@
 export const logger = store => next => (action) => {
-    console.log('1 dispatching', action);
+    console.log('Dispatching', action);
     const result = next(action);
-    console.log('1 next state', store.getState());
+    console.log('Next state', store.getState());
     return result;
 };

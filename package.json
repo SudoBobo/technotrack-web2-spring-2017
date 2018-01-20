@@ -40,9 +40,12 @@
   },
   "dependencies": {
     "babel-preset-react": "^6.24.1",
+    "history": "^4.7.2",
     "normalizr": "^3.2.4",
     "react-addons-update": "^15.6.2",
     "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
     "redux": "^3.7.2",
     "redux-api-middleware": "^2.0.1"
   }

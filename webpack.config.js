@@ -13,7 +13,7 @@ module.exports = {
 
     // entry: './app',
     entry: {
-        main: './app',
+        main: './index',
         testRedux: './testRedux',
     },
     output: {

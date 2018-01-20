@@ -3,26 +3,6 @@ import ReactDOM from 'react-dom';
 
 class NavigationPanel extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.onClickFeed = this.onClickFeed.bind(this);
-        this.onClickMyProfile = this.onClickMyProfile.bind(this);
-        this.onClickFriends = this.onClickFriends.bind(this);
-    }
-
-
-    onClickFeed(event) {
-        this.props.onChangePage('feed');
-    }
-
-    onClickMyProfile(event) {
-        this.props.onChangePage('myProfile');
-    }
-
-    onClickFriends(event) {
-        this.props.onChangePage('friends');
-    }
 
 
     render() {

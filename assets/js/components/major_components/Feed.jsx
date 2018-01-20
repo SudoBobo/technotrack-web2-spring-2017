@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import apiURLs from '../../apiURLs.jsx'
+import { connect } from 'react-redux';
 
 class FeedElement extends React.Component {
 
@@ -22,9 +23,9 @@ class FeedElement extends React.Component {
     // подписаться, чтобы изменить свой стейт
     // почитать сторе
 
-    static contextTypes = {
-        store: PropTypes.object,
-    };
+    // static contextTypes = {
+    //     store: PropTypes.object,
+    // };
 
     constructor(props) {
         super(props);
@@ -122,10 +123,8 @@ class Feed extends React.Component {
     }
 }
 
-export default Feed;
-
 // вызовет компанент с пропсами, которые
 // получились из кусков стора
 // аналогично с продиспатченными экшонами
-export default connect(mapStateToProps,
-    mapDispatchToProps)(Feed);
+// export default connect(mapStateToProps,
+//     mapDispatchToProps)(Feed);
