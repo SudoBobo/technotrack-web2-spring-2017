@@ -2,7 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
+
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+
+import {doAuth} from '../../actions/auth';
+
 import apiURLs from '../../apiURLs.jsx'
+
 
 class Register extends React.Component {
     constructor(props) {
@@ -37,35 +44,19 @@ class Login extends React.Component {
     }
 
     handleSubmit(event) {
-
-        fetch(apiURLs.auth, {
-            method: 'POST',
-            credentials: 'include',
-            body: JSON.stringify({username: this.state.login, password: this.state.password}),
-            headers: {
-                'content-type': 'application/json',
-            }
-        }).then(
-            body => body.json(),
-        ).then(
-            (json) => {
-                if ('token' in json) {
-                    localStorage.setItem('token', json['token']);
-                    this.props.onChangePage('feed');
-                }
-                else {
-                    console.log('something went wrong during authorization');
-                    console.log(`server response: ${JSON.stringify(json)}`);
-                }
-
-            },
-        );
-
-        event.preventDefault();
+        this.props.doAuth(apiURLs.auth, this.state.login, this.state.password);
+        // event.preventDefault();
     }
 
     render() {
+
+        if (this.props.isLoading) {
+            return <div> Аутентификация... </div>
+        }
+
         return (
+
+
             <form onSubmit={this.handleSubmit}>
                 <label>
                     Login:
@@ -87,19 +78,29 @@ class Login extends React.Component {
     }
 }
 
-// Login.propTypes = {
-//     onChangePage: PropTypes.func()
-// };
-
 class RegisterLogin extends React.Component {
     render() {
         return (
             <div>
-                <Login onChangePage={this.props.onChangePage}/>
+                <Login/>
                 <Register/>
             </div>
         );
     }
 }
 
-export default RegisterLogin;
+const mapStateToProps = (store) => {
+
+    return {
+        isLoading: store.auth.isLoading,
+    }
+};
+
+
+// я не понимаю, как это должно работать
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({doAuth}, dispatch)
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterLogin);

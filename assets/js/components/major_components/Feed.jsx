@@ -24,7 +24,6 @@ class Feed extends React.Component {
             return <div>Загрузка...</div>;
         }
 
-        // TODO fix the problem with same pks of posts and comments
         const feedList = this.props.feedList.map(
             item => <FeedElement key={item.pk} id={item.pk}/>,
         );

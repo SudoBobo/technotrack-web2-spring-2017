@@ -1,41 +1,32 @@
-
 import update from 'react-addons-update';
-import { START_FEED_LOADING, SUCCESS_FEED_LOADING, ERROR_FEED_LOADING } from './../actions/feed';
-import { START_POST_LOADING, SUCCESS_POST_LOADING, ERROR_POST_LOADING } from './../actions/makePost';
-
+import { START_AUTH, SUCCESS_AUTH, ERROR_AUTH } from './../actions/auth';
 
 const initialState = {
-    feedList: [],
     isLoading: false,
+    isLogin: false
 };
 
 export default function feed(store = initialState, action) {
     let newStore = store;
 
     switch (action.type) {
-        case START_FEED_LOADING: {
+        case START_AUTH: {
             return update(newStore, {
                 isLoading: { $set: true },
             });
         }
-        case SUCCESS_FEED_LOADING: {
+        case SUCCESS_AUTH: {
+            localStorage.setItem('token', action.payload.token);
             return update(newStore, {
                 isLoading: { $set: false },
-                feedList: { $set: action.payload },
+                isLogin: { $set: true}
             });
         }
-        case ERROR_FEED_LOADING: {
+        case ERROR_AUTH: {
             return update(newStore, {
                 isLoading: { $set: false },
             });
         }
-
-        case SUCCESS_POST_LOADING: {
-            return update(newStore, {
-                feedList: {$merge: action.payload},
-            })
-        }
-
         default:
             return newStore;
     }

@@ -1,7 +1,6 @@
 
 import update from 'react-addons-update';
 import { START_FEED_LOADING, SUCCESS_FEED_LOADING, ERROR_FEED_LOADING } from './../actions/feed';
-import { START_POST_LOADING, SUCCESS_POST_LOADING, ERROR_POST_LOADING } from './../actions/makePost';
 
 
 const initialState = {
@@ -29,13 +28,6 @@ export default function feed(store = initialState, action) {
                 isLoading: { $set: false },
             });
         }
-
-        case SUCCESS_POST_LOADING: {
-            return update(newStore, {
-                feedList: {$merge: action.payload},
-            })
-        }
-
         default:
             return newStore;
     }

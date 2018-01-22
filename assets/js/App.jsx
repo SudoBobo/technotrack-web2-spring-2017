@@ -1,30 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Switch, Route, Link} from 'react-router-dom';
+import {bindActionCreators} from 'redux';
+
+import {connect} from 'react-redux';
 
 import NavigationPanel from './components/major_components/NavigationPanel'
 import RegisterLogin from './components/major_components/RegisterLogin'
 import Feed from './components/major_components/Feed'
 import Post from './components/major_components/Post'
+import MakePost from './components/major_components/MakePost'
 import Friends from './components/major_components/Friends'
 import MyProfile from './components/major_components/MyProfile'
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            currentPage: localStorage.getItem('token') ? 'feed' : 'registerLogin',
-        };
-
-    }
-
     render() {
 
+        // if (!(this.props.isLogin || localStorage.getItem('token'))) {
+        //     return <RegisterLogin/>
+        // }
         return (<div>
             <Link to="/friends/">Друзья</Link>
             <Link to="/profile/">Мой профиль</Link>
             <Link to="/feed/">Лента</Link>
+            <Link to="/make_post/">Написать пост</Link>
+
 
             <Switch>
                 <Route exact path="/" component={() => <h2>Тест</h2>}/>
@@ -32,6 +32,7 @@ class App extends React.Component {
                 {/*<Route exact path="/profile/" component={Profile}/>*/}
                 <Route exact path="/feed/" component={Feed}/>
                 <Route exact path='/post/:id' component={Post}/>
+                <Route exact path='/make_post/' component={MakePost}/>
 
 
                 {/*<Route*/}
@@ -47,6 +48,20 @@ class App extends React.Component {
 }
 
 export default App;
+
+// const mapStateToProps = (store) => {
+//
+//     return {
+//         isLogin: store.auth.isLogin,
+//     }
+// };
+//
+// const mapDispatchToProps = (dispatch) => {
+//     return bindActionCreators({}, dispatch)
+// };
+//
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 
 // добавим ещё обертку, которая будет
