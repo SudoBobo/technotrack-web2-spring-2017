@@ -12,17 +12,15 @@ class Post extends React.Component {
         // );
 
         return (
-
-            <div> Это пост {this.props.match.params.id}</div>
-        // {/*<ul>*/}
-        //     {/*<li> Автор: {this.props.author} </li>*/}
-        //     {/*<li> Название поста: {this.props.title} </li>*/}
-        //     {/*<li> Текст поста: {this.props.text} </li>*/}
-        //     {/*<li> Число лайков: {this.props.likes_count}</li>*/}
-        //     {/*<li> Комментарии:*/}
-        //         {/*<ul> {comments}</ul>*/}
-        //     {/*</li>*/}
-        // {/*</ul>*/}
+        <ul>
+            <li> Автор: {this.props.author} </li>
+            <li> Название поста: {this.props.title} </li>
+            <li> Текст поста: {this.props.text} </li>
+            <li> Число лайков: {this.props.likes_count}</li>
+            <li> Комментарии:
+                <ul></ul>
+            </li>
+        </ul>
         );
     }
 }
