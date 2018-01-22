@@ -7,20 +7,22 @@ import Comment from '../minor_components/Comment'
 class Post extends React.Component {
     render() {
 
-        const comments = this.props.comments.map(
-            (item, index) => <li><Comment key={index} text={item.text} author={item.author}/></li>
-        );
+        // const comments = this.props.comments.map(
+        //     (item, index) => <li><Comment key={index} text={item.text} author={item.author}/></li>
+        // );
 
         return (
-        <ul>
-            <li> Автор: {this.props.author} </li>
-            <li> Название поста: {this.props.title} </li>
-            <li> Текст поста: {this.props.text} </li>
-            <li> Число лайков: {this.props.likes_count}</li>
-            <li> Комментарии:
-                <ul> {comments}</ul>
-            </li>
-        </ul>
+
+            <div> Это пост {this.props.match.params.id}</div>
+        // {/*<ul>*/}
+        //     {/*<li> Автор: {this.props.author} </li>*/}
+        //     {/*<li> Название поста: {this.props.title} </li>*/}
+        //     {/*<li> Текст поста: {this.props.text} </li>*/}
+        //     {/*<li> Число лайков: {this.props.likes_count}</li>*/}
+        //     {/*<li> Комментарии:*/}
+        //         {/*<ul> {comments}</ul>*/}
+        //     {/*</li>*/}
+        // {/*</ul>*/}
         );
     }
 }

@@ -28,7 +28,7 @@
     "css-loader": "^0.28.7",
     "eslint": "^4.15.0",
     "file-loader": "^0.11.2",
-    "prop-types": "^15.5.10",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "require": "^2.4.20",

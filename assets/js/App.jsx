@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
 import {Switch, Route, Link} from 'react-router-dom';
-import initStore from './utils'
 
 import NavigationPanel from './components/major_components/NavigationPanel'
 import RegisterLogin from './components/major_components/RegisterLogin'
@@ -32,7 +30,8 @@ class App extends React.Component {
                 <Route exact path="/" component={() => <h2>Тест</h2>}/>
                 <Route exact path="/friends/" component={Friends}/>
                 {/*<Route exact path="/profile/" component={Profile}/>*/}
-                {/*<Route exact path="/feed/" component={Fedd}/>*/}
+                <Route exact path="/feed/" component={Feed}/>
+                <Route exact path='/post/:id' component={Post}/>
 
 
                 {/*<Route*/}
