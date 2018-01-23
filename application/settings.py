@@ -30,6 +30,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ADMINS = (
+    ('ivan.koptelov@phystech.edu', 'Ivan Koptelov'),
+)
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -48,6 +52,10 @@ INSTALLED_APPS = [
     'webpack_loader',
 
 ]
+
+EMAIL_PORT = 1025
+
+BASE_URL = 'http://localhost:8000/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
